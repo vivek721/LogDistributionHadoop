@@ -1,7 +1,9 @@
 
 # sbt
 bin/
-project/
+project/project
+project/target
+project/build.properties
 target/
 build/
 out/
