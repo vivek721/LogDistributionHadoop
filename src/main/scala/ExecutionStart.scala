@@ -1,4 +1,4 @@
-import LogMethods.{DistributionPattern, LargestMessage, MostErrorInTime, Test, TimeIntervalLogs}
+import LogMethods.{DistributionPattern, LargestMessage, MostErrorInTime, TimeIntervalLogs}
 import com.typesafe.config.ConfigFactory
 import org.slf4j.LoggerFactory
 
