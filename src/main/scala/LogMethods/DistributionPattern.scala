@@ -1,5 +1,7 @@
 package LogMethods
 
+import HelperUtils.CreateLogger
+import LogMethods.TimeIntervalLogs.logger
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.io.{IntWritable, Text}
@@ -24,6 +26,8 @@ import scala.collection.JavaConverters._
 class DistributionPattern
 
 object DistributionPattern {
+
+  val logger = CreateLogger(classOf[TimeIntervalLogs])
   /**
    * User-defined Mapper class that extends Mapper superclass
    */
@@ -66,9 +70,12 @@ object DistributionPattern {
   def Start(args: Array[String]): Unit = {
     // Read the default configuration of the cluster from configuration xml files
     val configuration = new Configuration
+    logger.info("Configuration created")
+
     configuration.set("mapred.textoutputformat.separator", ",");
     // Initialize the job with default configuration of the cluster
     val job = Job.getInstance(configuration, "Log Distribution")
+    logger.info("Job created")
 
     // Assign the drive class to the job
     job.setJarByClass(this.getClass)
@@ -87,5 +94,6 @@ object DistributionPattern {
 
     // Exit after completion
     System.exit(if (job.waitForCompletion(true)) 0 else 1)
+
   }
 }

@@ -32,6 +32,7 @@ class TimeIntervalLogs
 
 object TimeIntervalLogs {
   val config: Config = ConfigFactory.load("application" + ".conf")
+  val logger = CreateLogger(classOf[TimeIntervalLogs])
 
   /**
    * User-defined Mapper class that extends Mapper superclass
@@ -90,11 +91,12 @@ object TimeIntervalLogs {
   def Start(args: Array[String]): Unit = {
     // Read the default configuration of the cluster from configuration xml files
     val configuration = new Configuration
+    logger.info("Configuration created")
 
     configuration.set("mapred.textoutputformat.separator", ",");
     // Initialize the job with default configuration of the cluster
     val job = Job.getInstance(configuration, "Time interval Log Distribution")
-
+    logger.info("Job created")
     // Assign the drive class to the job
     job.setJarByClass(this.getClass)
 

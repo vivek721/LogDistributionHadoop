@@ -1,6 +1,7 @@
 package LogMethods
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
+import LogMethods.TimeIntervalLogs.logger
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
@@ -31,6 +32,7 @@ class LargestMessage
 
 object LargestMessage {
   val config: Config = ConfigFactory.load("application" + ".conf")
+  val logger = CreateLogger(classOf[LargestMessage])
 
   /**
    * User-defined Mapper class that extends Mapper superclass
@@ -76,11 +78,13 @@ object LargestMessage {
   def Start(args: Array[String]): Unit = {
     // Read the default configuration of the cluster from configuration xml files
     val configuration = new Configuration
+    logger.info("Configuration created")
 
     // output text formatter
     configuration.set("mapred.textoutputformat.separator", ",");
     // Initialize the job with default configuration of the cluster
-    val job = Job.getInstance(configuration, "Time interval Log Distribution")
+    val job = Job.getInstance(configuration, "Largest log Message")
+    logger.info("Job created")
 
     // Assign the drive class to the job
     job.setJarByClass(this.getClass)

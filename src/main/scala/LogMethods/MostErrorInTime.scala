@@ -1,6 +1,7 @@
 package LogMethods
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
+import LogMethods.TimeIntervalLogs.logger
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
@@ -32,7 +33,7 @@ class MostErrorInTime
 
 object MostErrorInTime {
   val config: Config = ConfigFactory.load("application" + ".conf")
-
+  val logger = CreateLogger(classOf[MostErrorInTime])
   /**
    * User-defined Mapper class that extends Mapper superclass
    */
@@ -116,9 +117,11 @@ object MostErrorInTime {
   def Start(args: Array[String]): Unit = {
     // Read the default configuration of the cluster from configuration xml files
     val configuration = new Configuration
+    logger.info("Configuration created")
 
     // Initialize the job with default configuration of the cluster
-    val job = Job.getInstance(configuration, "Time interval Log Distribution")
+    val job = Job.getInstance(configuration, "MostError in given time")
+    logger.info("Job created")
 
     // Assign the drive class to the job
     job.setJarByClass(this.getClass)
@@ -139,6 +142,7 @@ object MostErrorInTime {
 
     // Read the default configuration of the cluster from configuration xml files
     val configuration1 = new Configuration
+    logger.info("Configuration created")
 
     // output text formatter
     configuration1.set("mapred.textoutputformat.separator", ",");
@@ -147,6 +151,7 @@ object MostErrorInTime {
 
     // Assign the drive class to the job
     job1.setJarByClass(this.getClass)
+    logger.info("Job created")
 
     job1.setMapperClass(classOf[SortingMapper])
     job1.setReducerClass(classOf[SortingReducer])
