@@ -12,11 +12,10 @@ import scala.collection.JavaConverters._
 
 /**
  * This is a map/reduce model to find the distribution of log types from the logfile.
+ *
  * {DEBUG, ERROR, INFO, WARN} these are the type of messages in logfile
  *
- * All parameters are specified in the simulationIaaS.conf file.
- *
- * The code entry point is the runSimulation method in Simulation.scala.
+ * The code entry point is the ExecutionStart.scala.
  *
  * @author Vivek Mishra
  *

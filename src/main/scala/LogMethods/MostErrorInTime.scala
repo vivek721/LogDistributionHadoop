@@ -15,13 +15,14 @@ import java.util.regex.Pattern
 import scala.collection.JavaConverters._
 
 /**
- * This is a map/reduce model to find the distribution of log types from the logfile within a given time period and
- * having a given regex type
+ * This is a map/reduce model to find the error withing a predefined time interval
+ * having a given regex type pattern
+ *
  * {DEBUG, ERROR, INFO, WARN} these are the type of messages in logfile
  *
- * All parameters are specified in the simulationIaaS.conf file.
+ * All the configuration are read from application.conf file.
  *
- * The code entry point is the runSimulation method in Simulation.scala.
+ * The code entry point is the ExecutionStart.scala.
  *
  * @author Vivek Mishra
  *
@@ -48,18 +49,14 @@ object MostErrorInTime {
     override def map(key: Object, value: Text, context: Mapper[Object, Text, Text, IntWritable]#Context): Unit = {
       // Split the input line by the delimiter
       val line = value.toString().split("\\s+")
+
       // Add the logtype (line[2]) to the variable state0
       val timeStamp = line(0).split("\\.")(0)
 
       logType.set(line(2))
       count.set(1);
       //check time
-      val logTime = LocalTime.parse(line(0));
-//      val checkTime = (
-//        logTime.isAfter(LocalTime.parse(startTime))
-//          &&
-//          logTime.isBefore(LocalTime.parse(endTime))
-//        );
+      val logTime = LocalTime.parse(line(0))
 
       //check pattern
       val pattern = Pattern.compile(regEx)
@@ -87,7 +84,8 @@ object MostErrorInTime {
 
 
   /**
-   * User-defined Mapper class that extends Mapper superclass
+   * User-defined Mapper class that extends Mapper superclass used for sorting the output from
+   * MostErrorInTimeReducer
    */
   class SortingMapper extends Mapper[Object, Text, IntWritable, Text] {
 
@@ -142,9 +140,10 @@ object MostErrorInTime {
     // Read the default configuration of the cluster from configuration xml files
     val configuration1 = new Configuration
 
+    // output text formatter
     configuration1.set("mapred.textoutputformat.separator", ",");
     // Initialize the job with default configuration of the cluster
-    val job1 = Job.getInstance(configuration, "Time interval Log Distribution")
+    val job1 = Job.getInstance(configuration1, "Time interval Log Distribution")
 
     // Assign the drive class to the job
     job1.setJarByClass(this.getClass)
