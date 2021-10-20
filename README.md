@@ -28,6 +28,12 @@ To compute the number of characters in each log message for each type that
 contain the highest number of characters in the detected instances of the 
 designated regex pattern.
 
+###### API Documentation
+Find the api documentationin the below link
+
+
+[API Doc](https://vivek721.github.io/LogDistributionHadoop/)
+
 ### Installation instructions
 
 This section contains the instructions on how to run the map/reduce 
@@ -108,5 +114,3 @@ Hortonworks Sandbox VM
 
    ###### task 4
    ![alt text](src/main/resources/4.PNG)
-
-[ApiDoc](https://vivek721.github.io/LogDistributionHadoop/)
