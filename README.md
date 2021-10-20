@@ -7,7 +7,7 @@
 ### Introduction
 The goal is to create a program for parallel distributed processing of generated log files.
 I have used Hortonworks Sandbox on vmWare to create the distributed program then I 
-deployed it to Amazon Elastic MapReduce (EMR) 
+deployed it to Amazon Elastic MapReduce (EMR).
 
 ### Functionality
 To create a program for parallel distributed processing of logs. The program can be 
@@ -31,13 +31,13 @@ designated regex pattern.
 This section contains the instructions on how to run the map/reduce 
 implementation as part of this assignment,
 
-#####Requirements:
-scala 3.0.2
-java sdk >= 8
-sbt-assembly 1.1.0
-hadoop-core 1.2.1
-IntelliJ IDEA
-VMWare
+##### Requirements:
+scala 3.0.2, 
+java sdk >= 8,
+sbt-assembly 1.1.0,
+hadoop-core 1.2.1,
+IntelliJ IDEA,
+VMWare,
 Hortonworks Sandbox VM
 
 ###### Steps to get started
@@ -47,7 +47,7 @@ Hortonworks Sandbox VM
     > git clone git@github.com:vivek721/LogDistributionHadoop.git
     ```
 
-2. Move to download path and run the below command 
+2. Move to project path and run the below command 
     ```
    > sbt clean compile assembly
     ```
@@ -56,4 +56,41 @@ Hortonworks Sandbox VM
     build.sbt in the root folder configured. Assembly will create a 
     fat jar file in the location: target/scala-3.0.2/ with all the required dependencies.
 
-3. 
+3. Copy the jar and the log file 
+    ```
+    > scp -P 2222 {projectDi}/Data/file.txt root@{IP of Sandbox}:/home/hdfs/.
+    > scp -P 2222 {projectDir}/target/scala-3.0.2/LogDistributionHadoop-assembly-0.1.jar root@{IP of Sandbox}:/home/hdfs/.
+   ```
+
+4. Create a hdfs directory and output directory and copy logfile to data directory
+    ```
+    > su hdfs
+    > cd /home/hdfs
+    > hdfs dfs -mkdir /data
+    > hdfs dfs -mkdir /output
+    > hdfs dfs -copyFromLocal file.txt /data/.
+   ```
+
+5. To execute the jar file, as input arguments change depending on which program we are running
+    ######for task 1
+    ```
+    > hadoop jar LogDistributionHadoop-assembly-0.1.jar /data/file.txt /output/dist1 1
+   ```
+   ######for task 2
+    ```
+    > hadoop jar LogDistributionHadoop-assembly-0.1.jar /data/file.txt /output/dist2Inter /output/dist2 2
+   ```
+   ######for task 3
+    ```
+    > hadoop jar LogDistributionHadoop-assembly-0.1.jar /data/file.txt /output/dist3 3
+   ```
+   ######for task 1
+    ```
+    > hadoop jar LogDistributionHadoop-assembly-0.1.jar /data/file.txt /output/dist4 4
+   ```
+
+6. To see the output of the task please use the below command
+    ```
+    > hdfs dfs -text /output/dist{1,2,3,4 (depending in task)}/part-r-00000
+    ```
+
