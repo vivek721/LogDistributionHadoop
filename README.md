@@ -72,19 +72,19 @@ Hortonworks Sandbox VM
    ```
 
 5. To execute the jar file, as input arguments change depending on which program we are running
-    ######for task 1
+    ###### for task 1
     ```
     > hadoop jar LogDistributionHadoop-assembly-0.1.jar /data/file.txt /output/dist1 1
    ```
-   ######for task 2
+   ###### for task 2
     ```
     > hadoop jar LogDistributionHadoop-assembly-0.1.jar /data/file.txt /output/dist2Inter /output/dist2 2
    ```
-   ######for task 3
+   ###### for task 3
     ```
     > hadoop jar LogDistributionHadoop-assembly-0.1.jar /data/file.txt /output/dist3 3
    ```
-   ######for task 1
+   ###### for task 1
     ```
     > hadoop jar LogDistributionHadoop-assembly-0.1.jar /data/file.txt /output/dist4 4
    ```
