@@ -9,13 +9,14 @@ The goal is to create a program for parallel distributed processing of generated
 I have used Hortonworks Sandbox on vmWare to create the distributed program then I 
 deployed it to Amazon Elastic MapReduce (EMR).
 
+
 ### Functionality
 To create a program for parallel distributed processing of logs. The program can be 
 broken into 4 tasks.
 ###### Task 1
 To compute distribution of different types of messages across predefined 
 time intervals and injected string instances of the designated regex
-pattern for these log message types 
+pattern for these log message types. 
 ###### Task 2
 To compute time intervals sorted in the descending order that contained most 
 log messages of the type ERROR with injected regex pattern string instances
@@ -93,4 +94,17 @@ Hortonworks Sandbox VM
     ```
     > hdfs dfs -text /output/dist{1,2,3,4 (depending in task)}/part-r-00000
     ```
+
+7. Sample output for
+    ###### task 1
+   ![alt text](src/main/resources/1.PNG)
+
+   ###### task 2
+   ![alt text](src/main/resources/2.PNG)
+
+   ###### task 3
+   ![alt text](src/main/resources/3.PNG)
+
+   ###### task 4
+   ![alt text](src/main/resources/4.PNG)
 

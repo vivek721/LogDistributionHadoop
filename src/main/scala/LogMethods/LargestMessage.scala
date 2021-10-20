@@ -74,6 +74,9 @@ object LargestMessage {
 
   /**
    * execution starts here this is the main function of this class
+   * @param arg(0) - inputfile
+   * @param arg(1) - outputfile
+   * @param arg(2) - 4 (program selector)
    */
   def Start(args: Array[String]): Unit = {
     // Read the default configuration of the cluster from configuration xml files
