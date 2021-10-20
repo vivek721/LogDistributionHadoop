@@ -8,7 +8,7 @@
 The goal is to create a map/reduce program for parallel distributed processing of the log file.
 The Demo video can be seen from the link below :-
 
-[EMR Deployment Demo]("https://youtu.be/UhiAdQ4ZjjA") 
+[EMR Deployment Demo](https://youtu.be/UhiAdQ4ZjjA) 
 
 
 ### Functionality
