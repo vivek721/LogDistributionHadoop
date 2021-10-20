@@ -7,7 +7,7 @@ import org.apache.hadoop.fs.Path
 import org.apache.hadoop.io.{IntWritable, Text}
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat
-import org.apache.hadoop.mapreduce.{Job, Mapper, Reducer}
+import org.apache.hadoop.mapreduce.{Job, Mapper, Reducer, Partitioner}
 
 import java.lang.Iterable
 import scala.collection.JavaConverters._
@@ -28,6 +28,7 @@ class DistributionPattern
 object DistributionPattern {
 
   val logger = CreateLogger(classOf[TimeIntervalLogs])
+
   /**
    * User-defined Mapper class that extends Mapper superclass
    */
@@ -64,11 +65,25 @@ object DistributionPattern {
     }
   }
 
+  class DistibutionPatternPartitioner extends Partitioner[Text, IntWritable] {
+    override def getPartition(key: Text, value: IntWritable, numReduceTasks: Int): Int = {
+      // split the input from the mapper
+      val errorType = value.toString().split("\t")(0)
+      // if the number of reduce tasks is 0,
+      if (numReduceTasks == 0) return 0
+      // if the error type is INFO, assign to second reducer
+      if (errorType == "INFO") return 1 % numReduceTasks
+      // assign other error types to first reducer
+      return 0
+    }
+  }
+
   /**
    * execution starts here this is the main function of this class
-   * @param arg(0) - inputfile
-   * @param arg(1) - outputfile
-   * @param arg(2) - 3 (program selector)
+   *
+   * @param arg (0) - inputfile
+   * @param arg (1) - outputfile
+   * @param arg (2) - 3 (program selector)
    */
   def Start(args: Array[String]): Unit = {
     // Read the default configuration of the cluster from configuration xml files

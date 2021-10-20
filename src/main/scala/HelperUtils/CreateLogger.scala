@@ -4,8 +4,6 @@ import org.slf4j.{Logger, LoggerFactory}
 
 import scala.util.{Failure, Success, Try}
 
-class CreateLogger
-
 object CreateLogger {
   def apply[T](class4Logger: Class[T]): Logger = {
 
