@@ -13,6 +13,7 @@ deployed it to Amazon Elastic MapReduce (EMR).
 ### Functionality
 To create a program for parallel distributed processing of logs. The program can be 
 broken into 4 tasks.
+
 ###### Task 1
 To compute distribution of different types of messages across predefined 
 time intervals and injected string instances of the designated regex
@@ -108,3 +109,4 @@ Hortonworks Sandbox VM
    ###### task 4
    ![alt text](src/main/resources/4.PNG)
 
+[ApiDoc](https://vivek721.github.io/LogDistributionHadoop/)
