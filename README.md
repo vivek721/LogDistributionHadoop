@@ -5,9 +5,10 @@
 #### University of Illinois at Chicago
 
 ### Introduction
-The goal is to create a program for parallel distributed processing of generated log files.
-I have used Hortonworks Sandbox on vmWare to create the distributed program then I 
-deployed it to Amazon Elastic MapReduce (EMR).
+The goal is to create a map/reduce program for parallel distributed processing of the log file.
+The Demo video can be seen from the link below :-
+
+[EMR Deployment Demo]("https://youtu.be/UhiAdQ4ZjjA") 
 
 
 ### Functionality
@@ -80,7 +81,7 @@ Hortonworks Sandbox VM
 
 3. Copy the jar and the log file 
     ```
-    > scp -P 2222 {projectDi}/Data/file.txt root@{IP of Sandbox}:/home/hdfs/.
+    > scp -P 2222 {projectDir}/Data/logFile.txt root@{IP of Sandbox}:/home/hdfs/.
     > scp -P 2222 {projectDir}/target/scala-3.0.2/DistributionPatternHadoop-assembly-0.1.jar root@{IP of Sandbox}:/home/hdfs/.
    ```
 
@@ -90,18 +91,18 @@ Hortonworks Sandbox VM
     > cd /home/hdfs
     > hdfs dfs -mkdir /data
     > hdfs dfs -mkdir /output
-    > hdfs dfs -copyFromLocal file.txt /data/.
+    > hdfs dfs -copyFromLocal logFile.txt /data/.
    ```
 
 5. To execute the jar file, as input arguments change depending on which program we are running
     ```
-    task 1> hadoop jar DistributionPatternHadoop-assembly-0.1.jar /data/file.txt /output/dist1 1
+    task 1> hadoop jar DistributionPatternHadoop-assembly-0.1.jar /data/logFile.txt /output/dist1 1
    
-    task 2> hadoop jar DistributionPatternHadoop-assembly-0.1.jar /data/file.txt /output/dist2Inter /output/dist2 2
+    task 2> hadoop jar DistributionPatternHadoop-assembly-0.1.jar /data/logFile.txt /output/dist2Inter /output/dist2 2
    
-    task 3> hadoop jar DistributionPatternHadoop-assembly-0.1.jar /data/file.txt /output/dist3 3
+    task 3> hadoop jar DistributionPatternHadoop-assembly-0.1.jar /data/logFile.txt /output/dist3 3
   
-    task 4> hadoop jar DistributionPatternHadoop-assembly-0.1.jar /data/file.txt /output/dist4 4
+    task 4> hadoop jar DistributionPatternHadoop-assembly-0.1.jar /data/logFile.txt /output/dist4 4
    ```
 
 6. To see the output of the task please use the below command
