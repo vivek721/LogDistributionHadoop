@@ -1,13 +1,14 @@
 package LogMethods
 
 import HelperUtils.CreateLogger
-import LogMethods.TimeIntervalLogs.logger
+import LogMethods.TimeIntervalLogs.{config, logger}
+import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.io.{IntWritable, Text}
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat
-import org.apache.hadoop.mapreduce.{Job, Mapper, Reducer, Partitioner}
+import org.apache.hadoop.mapreduce.{Job, Mapper, Partitioner, Reducer}
 
 import java.lang.Iterable
 import scala.collection.JavaConverters._
@@ -27,10 +28,13 @@ class DistributionPattern
 
 object DistributionPattern {
 
+  val config: Config = ConfigFactory.load("application" + ".conf")
   val logger = CreateLogger(classOf[TimeIntervalLogs])
 
   /**
    * User-defined Mapper class that extends Mapper superclass
+   *
+   * @output the output of the Mapper will be a key-value pair of (logType - 1)
    */
   class DistibutionPatternMapper extends Mapper[Object, Text, Text, IntWritable] {
 
@@ -53,6 +57,8 @@ object DistributionPattern {
 
   /**
    * User-defined Reduce class that extends Reducer superclass
+   *
+   * @output the output of the Reducer will be a key-value pair of (logType - total count)
    */
   class DistibutionPatternReducer extends Reducer[Text, IntWritable, Text, IntWritable] {
 
@@ -65,14 +71,22 @@ object DistributionPattern {
     }
   }
 
+  /**
+   * User-defined partitioner class that extends Partitioner superclass
+   *
+   * @Param Key(logType), value(1), numberOfReducer(from Config file)
+   */
   class DistibutionPatternPartitioner extends Partitioner[Text, IntWritable] {
-    override def getPartition(key: Text, value: IntWritable, numReduceTasks: Int): Int = {
+    override def getPartition(key: Text, value: IntWritable, numOfReducer: Int): Int = {
       // split the input from the mapper
-      val errorType = value.toString().split("\t")(0)
-      // if the number of reduce tasks is 0,
-      if (numReduceTasks == 0) return 0
-      // if the error type is INFO, assign to second reducer
-      if (errorType == "INFO") return 1 % numReduceTasks
+      val logType = value.toString().split("\t")(0)
+
+      // if the number of reducer tasks is 0,
+      if (numOfReducer == 0) return 0
+
+      // if the error type is INFO
+      if (logType == "INFO") return 1 % numOfReducer
+
       // assign other error types to first reducer
       return 0
     }
@@ -101,6 +115,9 @@ object DistributionPattern {
     // Assign user-defined Mapper and Reducer class
     job.setMapperClass(classOf[DistibutionPatternMapper])
     job.setReducerClass(classOf[DistibutionPatternReducer])
+    job.setPartitionerClass(classOf[DistibutionPatternPartitioner])
+
+    job.setNumReduceTasks(config.getInt("Config.NumberOfReducer"))
 
     // Set the Key and Value types of the output
     job.setOutputKeyClass(classOf[Text])

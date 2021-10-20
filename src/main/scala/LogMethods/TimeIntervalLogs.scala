@@ -36,6 +36,8 @@ object TimeIntervalLogs {
 
   /**
    * User-defined Mapper class that extends Mapper superclass
+   *
+   * @output the output of the Mapper will be a key-value pair of (logType - count(1))
    */
   class TimeIntervalLogsMapper extends Mapper[Object, Text, Text, IntWritable] {
     val regEx = config.getString("Config.RegEx")
@@ -73,6 +75,8 @@ object TimeIntervalLogs {
 
   /**
    * User-defined Reduce class that extends Reducer superclass
+   *
+   * @output the output of the Mapper will be a key-value pair of (logType - count of logtype in the given timeframe)
    */
   class TimeIntervalLogsReducer extends Reducer[Text, IntWritable, Text, IntWritable] {
 

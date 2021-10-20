@@ -36,6 +36,8 @@ object MostErrorInTime {
   val logger = CreateLogger(classOf[MostErrorInTime])
   /**
    * User-defined Mapper class that extends Mapper superclass
+   *
+   * @output the output of the Mapper will be a key-value pair of (timestamp - count)
    */
   class MostErrorInTimeMapper extends Mapper[Object, Text, Text, IntWritable] {
     val regEx = config.getString("Config.RegEx")
@@ -71,6 +73,8 @@ object MostErrorInTime {
 
   /**
    * User-defined Reduce class that extends Reducer superclass
+   *
+   * @output the output of the Reducer will be a key-value pair of (Timestamp - count of error in that time)
    */
   class MostErrorInTimeReducer extends Reducer[Text, IntWritable, Text, IntWritable] {
 
@@ -85,8 +89,9 @@ object MostErrorInTime {
 
 
   /**
-   * User-defined Mapper class that extends Mapper superclass used for sorting the output from
-   * MostErrorInTimeReducer
+   * User-defined Mapper class that extends Mapper superclass used for sorting the output from MostErrorInTimeReducer
+   *
+   * @output the output of the Mapper will be a key-value pair of (count of error in that time * -1 - Timestamp)
    */
   class SortingMapper extends Mapper[Object, Text, IntWritable, Text] {
 
@@ -100,6 +105,8 @@ object MostErrorInTime {
 
   /**
    * User-defined Reduce class that extends Reducer superclass
+   *
+   * @output the output of the Reducer will be a key-value pair of (Timestamp - count of error in that time)
    */
   class SortingReducer extends Reducer[IntWritable, Text, Text, IntWritable] {
     // Override the reduce function

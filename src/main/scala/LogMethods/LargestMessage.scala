@@ -36,6 +36,8 @@ object LargestMessage {
 
   /**
    * User-defined Mapper class that extends Mapper superclass
+   *
+   * @output the output of the Mapper will be a key-value pair of (logType - 1)
    */
   class LargestMessageMapper extends Mapper[Object, Text, Text, IntWritable] {
     val regEx = config.getString("Config.RegEx")
@@ -60,6 +62,8 @@ object LargestMessage {
 
   /**
    * User-defined Reduce class that extends Reducer superclass
+   *
+   * @output the output of the Reducer will be a key-value pair of (logType - length of largest message)
    */
   class LargestMessageReducer extends Reducer[Text, IntWritable, Text, IntWritable] {
 
