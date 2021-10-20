@@ -6,7 +6,7 @@
 
 ### Introduction
 The goal is to create a map/reduce program for parallel distributed processing of the log file.
-The Demo video for AWR EMR deployment of the program can be seen from the link below :-
+The Demo video for AWS EMR deployment of the program can be seen from the link below :-
 
 [EMR Deployment Demo](https://youtu.be/UhiAdQ4ZjjA) 
 
