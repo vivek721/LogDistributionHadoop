@@ -79,6 +79,7 @@ Hortonworks Sandbox VM
     build.sbt in the root folder configured. Assembly will create a 
     fat jar file in the location: target/scala-3.0.2/ with all the required dependencies.
 
+
 3. Use the below command for running test
 
    ```
