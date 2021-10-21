@@ -79,13 +79,18 @@ Hortonworks Sandbox VM
     build.sbt in the root folder configured. Assembly will create a 
     fat jar file in the location: target/scala-3.0.2/ with all the required dependencies.
 
-3. Copy the jar and the log file 
+3. Use the below command for running test
+
+   ```
+   > sbt clean compile test
+    ```
+4. Copy the jar and the log file 
     ```
     > scp -P 2222 {projectDir}/Data/logFile.txt root@{IP of Sandbox}:/home/hdfs/.
     > scp -P 2222 {projectDir}/target/scala-3.0.2/DistributionPatternHadoop-assembly-0.1.jar root@{IP of Sandbox}:/home/hdfs/.
    ```
 
-4. Create a hdfs directory and output directory and copy logfile to data directory
+5. Create a hdfs directory and output directory and copy logfile to data directory
     ```
     > su hdfs
     > cd /home/hdfs
@@ -94,7 +99,7 @@ Hortonworks Sandbox VM
     > hdfs dfs -copyFromLocal logFile.txt /data/.
    ```
 
-5. To execute the jar file, as input arguments change depending on which program we are running
+6. To execute the jar file, as input arguments change depending on which program we are running
     ```
     task 1> hadoop jar DistributionPatternHadoop-assembly-0.1.jar /data/logFile.txt /output/dist1 1
    
@@ -105,12 +110,12 @@ Hortonworks Sandbox VM
     task 4> hadoop jar DistributionPatternHadoop-assembly-0.1.jar /data/logFile.txt /output/dist4 4
    ```
 
-6. To see the output of the task please use the below command
+7. To see the output of the task please use the below command
     ```
     > hdfs dfs -text /output/dist{1,2,3,4 (depending in task)}/part-r-00000
     ```
 
-7. Sample output for
+8. Sample output for
     ###### task 1
    ![alt text](src/main/resources/1.PNG)
 
